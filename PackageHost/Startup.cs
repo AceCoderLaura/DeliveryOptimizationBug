@@ -28,7 +28,10 @@ namespace PackageHost
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints => { endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); }); });
+            app.UseEndpoints(endpoints => { endpoints.MapGet("/", async context =>
+            {
+                await context.Response.WriteAsync($"<a href='ms-appinstaller:?source={context.Request.Scheme}://{context.Request.Host}/XivicPackager_neutral.appinstaller'><button>Get the app</button></a>");
+            }); });
         }
     }
 }
