@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 
 namespace PackageHost
@@ -26,12 +27,13 @@ namespace PackageHost
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
+            var packageFolderProvider = new PhysicalFileProvider(env.ContentRootPath + @"\..\PackageApplication.Package\AppPackages\");
+            
+            app.UseDefaultFiles(new DefaultFilesOptions() { DefaultFileNames = { "index.html" }, FileProvider = packageFolderProvider });
+            
+            app.UseStaticFiles(new StaticFileOptions() { FileProvider = packageFolderProvider });
 
-            app.UseEndpoints(endpoints => { endpoints.MapGet("/", async context =>
-            {
-                await context.Response.WriteAsync($"<a href='ms-appinstaller:?source={context.Request.Scheme}://{context.Request.Host}/XivicPackager_neutral.appinstaller'><button>Get the app</button></a>");
-            }); });
+            app.UseRouting();
         }
     }
 }
