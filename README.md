@@ -16,4 +16,4 @@ This repository demonstrates a bug in the dosvc caused by the 2004 Windows 10 up
 10. Observe that the package no longer installs
 11. Run `Stop-Service -Name "Delivery Optimization"` in an administrator PowerShell window.
 12. Repeat steps 2-10
-13. Notice that the package installs again
+13. Observe that the package installs again
