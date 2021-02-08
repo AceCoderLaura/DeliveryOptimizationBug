@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
@@ -28,10 +24,25 @@ namespace PackageHost
             }
 
             var packageFolderProvider = new PhysicalFileProvider(env.ContentRootPath + @"\..\PackageApplication.Package\AppPackages\");
-            
-            app.UseDefaultFiles(new DefaultFilesOptions() { DefaultFileNames = { "index.html" }, FileProvider = packageFolderProvider });
-            
-            app.UseStaticFiles(new StaticFileOptions() { FileProvider = packageFolderProvider });
+
+            app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = { "index.html" }, FileProvider = packageFolderProvider });
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = packageFolderProvider,
+                ServeUnknownFileTypes = true,
+                ContentTypeProvider = new FileExtensionContentTypeProvider
+                {
+                    Mappings =
+                    {
+                        { ".appinstaller", "application/xml" },
+                        { ".appx", "application/vns.ms-appx" },
+                        { ".appxbundle", "application/vns.ms-appx" },
+                        { ".msix", "application/vns.ms-appx" },
+                        { ".msixbundle", "application/vns.ms-appx" }
+                    }
+                }
+            });
 
             app.UseRouting();
         }

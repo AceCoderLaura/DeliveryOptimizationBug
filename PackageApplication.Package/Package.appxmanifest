@@ -9,7 +9,7 @@
   <Identity
     Name="c18dfcc4-c522-4213-9271-0786f3ffaede"
     Publisher="CN=Laura"
-    Version="1.0.7.0" />
+    Version="1.0.9.0" />
 
   <Properties>
     <DisplayName>PackageApplication.Package</DisplayName>
